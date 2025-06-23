@@ -20,15 +20,10 @@ A new Flutter plugin.
   s.dependency 'Flutter'
   s.platform = :ios, '8.0'
   s.ios.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SRCROOT)/../.symlinks/plugins/blufi_plugin/ios/Classes/BlufiLibrary/Security/openssl/include" }
-  s.pod_target_xcconfig = {
-  'DEFINES_MODULE' => 'YES',
-  'ENABLE_BITCODE' => 'NO',
-  'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64 x86_64',
-  'OTHER_LDFLAGS[sdk=iphoneos*]' => '-force_load "$(PODS_TARGET_SRCROOT)/Classes/BlufiLibrary/Security/openssl/libcrypto.a"'
-  }
+  s.ios.vendored_libraries = 'Classes/BlufiLibrary/Security/openssl/*{.a}'
 
-  s.user_target_xcconfig = {
-    'OTHER_LDFLAGS[sdk=iphoneos*]' => '-force_load "$(PODS_TARGET_SRCROOT)/Classes/BlufiLibrary/Security/openssl/libcrypto.a"'
-  }
+  # Flutter.framework does not contain a i386 slice.
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
+   'ENABLE_BITCODE' => 'NO'}
 end
 
